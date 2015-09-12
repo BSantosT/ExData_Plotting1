@@ -1,0 +1,7 @@
+library("sqldf")
+df<- read.csv.sql("household_power_consumption.txt", sql = " select * from file where Date='1/2/2007' or Date='2/2/2007'", header=TRUE, sep=';')
+df$realtime <- as.POSIXct(strptime(paste(df$Date, df$Time),format = "%d/%m/%Y %H:%M:%S"),tz = "")
+png(filename = "plot2.png",height = 480, width = 480)
+plot(df$realtime,df$Global_active_power,type = "n", ylab = "Global Active Power (kilowatts)", xlab="")
+lines(df$realtime,df$Global_active_power)
+dev.off()
